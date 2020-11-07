@@ -16,10 +16,7 @@ const getProductById: APIGatewayProxyHandler = async (event, _context) => {
     }),
   };
 
-  console.log({
-    pathParams: event.pathParameters,
-    queryParams: event.queryStringParameters,
-  });
+  console.log({ event });
 
   try {
     const { productId } = event.pathParameters;

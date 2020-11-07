@@ -16,7 +16,7 @@ const getProductsList: APIGatewayProxyHandler = async (event) => {
     }),
   };
 
-  console.log({pathParams: event.pathParameters, queryParams: event.queryStringParameters});
+  console.log({ event });
 
   try {
     client.connect();

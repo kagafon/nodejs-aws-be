@@ -16,11 +16,7 @@ const addProduct: APIGatewayProxyHandler = async (event, _context) => {
     }),
   };
 
-  console.log({
-    pathParams: event.pathParameters,
-    queryParams: event.queryStringParameters,
-    body: event.body,
-  });
+  console.log({ event });
 
   try {
     /* Validate incoming params */
