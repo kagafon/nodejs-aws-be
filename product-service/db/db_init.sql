@@ -8,9 +8,10 @@ CREATE TABLE public.products (
 );
 
 CREATE TABLE public.stocks (
-	product_id uuid NOT NULL,
+	id uuid DEFAULT gen_random_uuid(),
 	count integer NOT NULL,
-	CONSTRAINT stocks_pk PRIMARY KEY (product_id),
+	product_id uuid NOT NULL,
+	CONSTRAINT stocks_pk PRIMARY KEY (id),
 	CONSTRAINT stocks_fk FOREIGN KEY (product_id) REFERENCES public.products(id) ON DELETE CASCADE
 );
 
