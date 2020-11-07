@@ -15,7 +15,7 @@ const serverlessConfiguration: Serverless = {
     },
   },
   // Add the serverless-webpack plugin
-  plugins: ['serverless-webpack'],
+  plugins: ['serverless-webpack', 'serverless-dotenv-plugin'],
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
@@ -26,6 +26,10 @@ const serverlessConfiguration: Serverless = {
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      PGHOST: '${env:PG_HOST}',
+      PGDATABASE: '${env:PG_DB}',
+      PGUSER: '${env:PG_USER}',
+      PGPASSWORD: '${env:PG_PWD}',
     },
   },
   functions: {
@@ -47,8 +51,20 @@ const serverlessConfiguration: Serverless = {
         {
           http: {
             method: 'get',
-            path: 'product/{productId}',
+            path: 'products/{productId}',
             request: { parameters: { paths: { productId: true } } },
+            cors: true,
+          },
+        },
+      ],
+    },
+    addProduct: {
+      handler: 'handler.addProduct',
+      events: [
+        {
+          http: {
+            method: 'post',
+            path: 'products',
             cors: true,
           },
         },
