@@ -5,13 +5,12 @@ CREATE TABLE public.products (
 	price numeric NULL,
 	image varchar(200) DEFAULT '/assets/images/Unknown.svg',
 	CONSTRAINT products_pk PRIMARY KEY (id)
-);sls
+);
 
 CREATE TABLE public.stocks (
-	id uuid DEFAULT gen_random_uuid(),
-	count integer NOT NULL,
 	product_id uuid NOT NULL,
-	CONSTRAINT stocks_pk PRIMARY KEY (id),
+	count integer NOT NULL,
+	CONSTRAINT stocks_pk PRIMARY KEY (product_id),
 	CONSTRAINT stocks_fk FOREIGN KEY (product_id) REFERENCES public.products(id) ON DELETE CASCADE
 );
 
