@@ -8,12 +8,14 @@ CREATE TABLE public.products (
 );
 
 CREATE TABLE public.stocks (
-	id uuid DEFAULT gen_random_uuid(),
-	count integer NOT NULL,
+	count int4 NOT NULL,
 	product_id uuid NOT NULL,
+	id uuid NOT NULL DEFAULT gen_random_uuid(),
 	CONSTRAINT stocks_pk PRIMARY KEY (id),
-	CONSTRAINT stocks_fk FOREIGN KEY (product_id) REFERENCES public.products(id) ON DELETE CASCADE
+	CONSTRAINT stocks_un UNIQUE (product_id)
 );
+
+ALTER TABLE public.stocks ADD CONSTRAINT stocks_fk FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE;
 
 insert into products (id, title, description, price) values (gen_random_uuid(), 'Square', 'Most equal square', 25.5);
 insert into products (id, title, description, price) values (gen_random_uuid(), 'Circle', 'Best rounded shape', 13.4);
