@@ -11,7 +11,9 @@ const serverlessConfiguration: Serverless = {
   custom: {
     webpack: {
       webpackConfig: './webpack.config.js',
-      includeModules: true,
+      includeModules: {
+        forceExclude: 'aws-sdk',
+      },
     },
   },
   // Add the serverless-webpack plugin
@@ -30,8 +32,8 @@ const serverlessConfiguration: Serverless = {
     iamRoleStatements: [
       {
         Effect: 'Allow',
-        Action: ['s3:GetObject', 's3:PutObject', 's3:DeleteObject'],
-        Resource: 'arn:aws:s3:::kagafon-import/uploaded/*',
+        Action: ['s3:GetObject', 's3:PutObject', 's3:DeleteObject', 's3:ListObjects'],
+        Resource: 'arn:aws:s3:::kagafon-import/*',
       },
     ],
   },
@@ -51,6 +53,19 @@ const serverlessConfiguration: Serverless = {
                 },
               },
             },
+          },
+        },
+      ],
+    },
+    importFileParser: {
+      handler: 'handler.importFileParser',
+      events: [
+        {
+          s3: {
+            event: 's3:ObjectCreated:*',
+            bucket: 'kagafon-import',
+            rules: [{ prefix: 'uploaded/', suffix: '.csv' }],
+            existing: true,
           },
         },
       ],
