@@ -10,6 +10,7 @@
   "dependencies": {
     "@types/pg": "^7.14.6",
     "aws-sdk": "^2.797.0",
+    "aws-sdk-mock": "^5.1.0",
     "axios": "^0.21.0",
     "pg": "^8.4.2",
     "source-map-support": "^0.5.10"
