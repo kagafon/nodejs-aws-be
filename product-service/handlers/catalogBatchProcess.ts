@@ -71,6 +71,8 @@ const catalogBatchProcess = async (
   } catch (error) {
     await client.query('ROLLBACK');
     console.log(error);
+  } finally {
+    client.end();
   }
 };
 
