@@ -60,6 +60,13 @@ const serverlessConfiguration: Serverless = {
                 },
               },
             },
+            authorizer: {
+              name: 'basicTokenAuthorizer',
+              arn:
+                '${cf:authorization-service-${self:provider.stage}.basicAuthorizerArn}',
+              type: 'token',
+              identitySource: 'method.request.header.Authorization',
+            },
           },
         },
       ],
@@ -76,6 +83,32 @@ const serverlessConfiguration: Serverless = {
           },
         },
       ],
+    },
+  },
+  resources: {
+    Resources: {
+      GatewayResponseAccessDenied: {
+        Type: 'AWS::ApiGateway::GatewayResponse',
+        Properties: {
+          RestApiId: { Ref: 'ApiGatewayRestApi' },
+          ResponseType: 'ACCESS_DENIED',
+          ResponseParameters: {
+            'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
+            'gatewayresponse.header.Access-Control-Allow-Credentials': "'true'",
+          },
+        },
+      },
+      GatewayResponseUnauthorized: {
+        Type: 'AWS::ApiGateway::GatewayResponse',
+        Properties: {
+          RestApiId: { Ref: 'ApiGatewayRestApi' },
+          ResponseType: 'UNAUTHORIZED',
+          ResponseParameters: {
+            'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
+            'gatewayresponse.header.Access-Control-Allow-Credentials': "'true'",
+          },
+        },
+      },
     },
   },
 };
