@@ -103,3 +103,5 @@ dist
 .tern-port
 /product-service/package-lock.json
 .env.local
+/bff-service/.env
+/bff-service/src/*.bak
