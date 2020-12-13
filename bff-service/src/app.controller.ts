@@ -3,9 +3,6 @@ import { AxiosError } from 'axios';
 import { Request, Response } from 'express';
 import { CacheService } from './services/cache.service';
 import { ProxyService } from './services/proxy.service';
-
-//const cache: Record<string, { expire: number; data: AxiosResponse }> = {};
-
 @Controller()
 export class AppController {
   private cachedPaths: string[];
@@ -29,8 +26,13 @@ export class AppController {
       return this.proxyService
         .getResponse(req.method, sourceUrl, req.body, req.query, req.headers)
         .then((resp) => {
-          if (req.method === 'GET' && this.cachedPaths.includes(req.path)) {
-            this.cacheService.setCachedResponse(req.path, resp);
+          if (
+            req.method === 'GET' &&
+            pathParts[1] &&
+            (this.cachedPaths.includes(req.path) ||
+              this.cachedPaths.includes(req.path + '/'))
+          ) {
+            this.cacheService.setCachedResponse(pathParts[1], resp);
           }
           res.status(resp.status).json(resp.data);
         })

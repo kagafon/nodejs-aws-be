@@ -8,7 +8,9 @@ export class CacheMiddleware implements NestMiddleware {
 
   use(req: Request, res: Response, next) {
     try {
-      const cachedResponse = this.cacheService.getCachedResponse(req.path);
+      const cachedResponse = this.cacheService.getCachedResponse(
+        req.path.split('/')[1],
+      );
       if (cachedResponse) {
         return res.status(cachedResponse.status).json(cachedResponse.data);
       }

@@ -17,6 +17,9 @@ export class AppModule {
         consumer
           .apply(CacheMiddleware)
           .forRoutes({ path, method: RequestMethod.GET });
+        consumer
+          .apply(CacheMiddleware)
+          .forRoutes({ path: `${path}/`, method: RequestMethod.GET });
       });
     }
   }
