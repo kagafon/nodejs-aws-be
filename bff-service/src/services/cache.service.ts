@@ -15,7 +15,6 @@ export class CacheService {
   }
 
   setCachedResponse(path: string, data: AxiosResponse) {
-    console.log(`Set cache: ${path}`);
     cache[path] = { expire: Date.now() + 2 * 60 * 1000, data };
   }
 }

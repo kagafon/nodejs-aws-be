@@ -10,7 +10,6 @@ export class CacheMiddleware implements NestMiddleware {
     try {
       const cachedResponse = this.cacheService.getCachedResponse(req.path);
       if (cachedResponse) {
-        console.log(`Return cached: ${req.path}`);
         return res.status(cachedResponse.status).json(cachedResponse.data);
       }
     } catch (_) {}
